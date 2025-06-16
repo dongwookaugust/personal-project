@@ -19,3 +19,10 @@ export interface ContentItem {
   hd?: boolean;
   episodesDetail?: Episode[];
 }
+export interface Notification {
+  id: number | string;
+  image: string;
+  title: string;
+  subtitle: string;
+  time: string;
+}

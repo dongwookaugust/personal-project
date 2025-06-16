@@ -12,13 +12,23 @@ import { useAuth } from "../context/AuthContext";
 
 interface ProfileDropdownProps {
   onClose: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
-const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
+const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
+  onClose,
+  onMouseEnter,
+  onMouseLeave,
+}) => {
   const { user } = useAuth();
 
   return (
-    <div className="profile-dropdown" onMouseLeave={onClose}>
+    <div
+      className="profile-dropdown"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div className="dropdown-arrow" />
       <div className="profile-dropdown__arrow" />
       <div className="profile-header">
@@ -42,7 +52,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
         Help Center
       </div>
       <div className="dropdown-divider" />
-      <div className="dropdown-item">
+      <div className="dropdown-item" onClick={onClose}>
         <FaSignOutAlt className="icon" />
         Sign out of Netflix
       </div>
