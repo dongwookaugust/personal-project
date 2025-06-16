@@ -1,0 +1,284 @@
+.hover-card {
+  width: 560px;
+  background-color: #181818;
+  border-radius: 8px;
+  overflow: visible;
+  padding: 1.2rem;
+  color: white;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  transform: scale(1.15);
+  transition: transform 0.2s ease;
+  position: absolute;
+  z-index: 10;
+}
+
+.hover-card-thumbnail {
+  position: relative;
+}
+
+.hover-card-thumbnail img {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.mute-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.hover-card-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.hover-card-meta {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.meta-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.badge.age {
+  background: #444;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #ccc;
+}
+
+.hd-tag {
+  background: #666;
+  padding: 2px 4px;
+  font-size: 0.7rem;
+  border-radius: 2px;
+  margin-left: 6px;
+}
+
+.meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.meta-tags span {
+  background: #2a2a2a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #bbb;
+}
+
+.meta-top {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.badge.episodes {
+  background: #444;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #ccc;
+}
+.hover-card-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 24px;
+  box-sizing: border-box;
+  z-index: 9999;
+}
+
+.hover-card-expanded {
+  width: 100%;
+  max-width: 940px;
+  background-color: #181818;
+  border-radius: 10px;
+  color: white;
+  margin: 80px 0;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.expanded-header {
+  position: relative;
+}
+
+.expanded-header img {
+  width: 100%;
+  height: auto;
+  max-height: 440px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+}
+
+.expanded-body {
+  padding: 1.5rem;
+}
+
+.detail-row {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: transparent;
+}
+
+.episode-item {
+  display: flex;
+  padding: 2.5rem;
+  align-items: flex-start;
+  gap: 1rem;
+  border-radius: 8px;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+}
+
+.episode-item:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.episode-item:hover .thumbnail-overlay {
+  opacity: 1;
+}
+
+.episode-rank {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #888;
+  width: 32px;
+  text-align: center;
+  line-height: 1;
+  margin-top: 18px;
+}
+
+.episode-thumbnail {
+  position: relative;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.episode-thumbnail img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.thumbnail-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.overlay-play-icon {
+  color: white;
+  font-size: 1.8rem;
+}
+
+.episode-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.episode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.episode-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+}
+
+.episode-runtime {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.episode-description {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #aaa;
+}

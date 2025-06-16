@@ -1,0 +1,122 @@
+.top10-background {
+  width: 100%;
+  margin-left: -50vw;
+  left: 50%;
+  position: relative;
+  background-color: #141414;
+  padding: 2rem 0;
+  overflow: visible;
+}
+
+.top10-row {
+  width: 100%;
+  padding: 0 2%;
+  box-sizing: border-box;
+}
+
+.top10-title {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-left: 1%;
+  margin-bottom: 1.5rem;
+}
+
+.top10-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.top10-cards.static {
+  overflow: visible;
+  width: calc(100% + 155.2px);
+  margin: 0 -57.6px;
+  padding: 0;
+}
+
+.top10-track {
+  display: flex;
+  width: max-content;
+  gap: 15px;
+  overflow: visible;
+}
+
+.top10-card {
+  display: flex;
+  align-items: center;
+  height: 284px;
+  flex: 0 0 388px;
+  overflow: visible;
+  position: relative;
+  background: transparent;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.top10-card.blank {
+  flex: 0 0 77.6px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.top10-card.partial {
+  flex: 0 0 77.6px;
+  overflow: hidden;
+}
+
+.top10-rank-img img {
+  width: 169px;
+  height: 284px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.top10-thumbnail img {
+  width: 189px;
+  height: 284px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  z-index: 1;
+  position: relative;
+}
+
+.top10-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.top10-wrapper:hover .top10-nav {
+  opacity: 1;
+}
+
+.top10-nav.left {
+  left: -60px;
+}
+
+.top10-nav.right {
+  right: -56px;
+}
+
+.top10-nav:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.top10-card.bookend-left .top10-thumbnail img {
+  margin-left: -80%;
+  object-fit: cover;
+}

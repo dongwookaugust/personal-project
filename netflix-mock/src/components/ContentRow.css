@@ -1,0 +1,126 @@
+.content-row-background {
+  width: 100%;
+  margin-left: -50vw;
+  left: 50%;
+  position: relative;
+  background-color: #141414;
+  padding: 2rem 0;
+  overflow: visible;
+}
+
+.content-row {
+  width: 100%;
+  padding: 0 2%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.row-title {
+  color: #fff;
+  font-size: 2rem;
+  margin-left: 1%;
+  margin-bottom: 1.5rem;
+}
+
+.row-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.row-cards.static {
+  overflow: visible;
+  width: calc(100% + 120px);
+  margin: 0 -60px;
+  padding: 0;
+}
+
+.row-track {
+  display: flex;
+  width: max-content;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+  gap: 15px;
+  overflow: visible;
+}
+
+.card {
+  position: relative;
+  flex: 0 0 388px;
+  height: 221px;
+  min-width: 0;
+  overflow: visible;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 4px;
+}
+
+.card.blank {
+  flex: 0 0 64px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.card.partial {
+  flex: 0 0 77.6px;
+  overflow: hidden;
+}
+
+.row-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 3rem;
+  cursor: pointer;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.row-nav:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.row-nav.left {
+  left: -43px;
+}
+
+.row-nav.right {
+  right: -56px;
+}
+
+.big-index {
+  position: absolute;
+  left: -1.5rem;
+  top: 0;
+  font-size: 3rem;
+  color: #fff;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.badge.top10 {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #e50914;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
