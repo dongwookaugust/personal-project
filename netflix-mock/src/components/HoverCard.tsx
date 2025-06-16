@@ -8,7 +8,7 @@ import {
   FaVolumeUp,
   FaTimes,
 } from "react-icons/fa";
-import { ContentItem } from "../hooks/useContentItems";
+import type { ContentItem } from "../types";
 import "./HoverCard.css";
 
 interface HoverCardProps {

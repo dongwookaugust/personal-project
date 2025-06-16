@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import HoverCard from "./HoverCard";
-import type { ContentItem } from "../hooks/useContentItems";
+import type { ContentItem } from "../types";
 
 interface HoverCardPortalProps {
   item: ContentItem;

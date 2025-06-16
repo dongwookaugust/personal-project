@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import HoverCardPortal from "./HoverCardPortal";
-import type { ContentItem } from "../hooks/useContentItems";
+import type { ContentItem } from "../types";
 import { useHoverCard } from "../hooks/useHoverCard";
 import "./ContentRow.css";
 

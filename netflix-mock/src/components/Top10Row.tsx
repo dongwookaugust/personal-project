@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import HoverCardPortal from "./HoverCardPortal";
-import type { ContentItem } from "../hooks/useContentItems";
+import type { ContentItem } from "../types";
 import { useHoverCard } from "../hooks/useHoverCard";
 import "./Top10Row.css";
 
@@ -29,8 +29,6 @@ const rankImages = [
   rank10,
 ];
 
-const CARD_WIDTH = 388;
-const PARTIAL_CARD_WIDTH = CARD_WIDTH / 5;
 const VISIBLE_COUNT = 6;
 
 interface Top10RowProps {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./FeaturedSection.css";
 import { FaPlay, FaInfoCircle, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import type { ContentItem } from "../hooks/useContentItems";
+import type { ContentItem } from "../types";
 
 interface FeaturedSectionProps {
   item: ContentItem;

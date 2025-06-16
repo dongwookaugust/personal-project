@@ -1,20 +1,27 @@
 import React from "react";
 import FeaturedSection from "../components/FeaturedSection";
 import ContentRow from "../components/ContentRow";
-import { useContentItems } from "../hooks/useContentItems";
 import Top10Row from "../components/Top10Row";
+import { useGetContentItemsQuery } from "../store/api/contentApi";
 import "./Home.css";
 import netflixLogo from "../assets/netflix-logo.png";
 
 const Home: React.FC = () => {
   const {
-    items: featuredItems,
-    loading,
-    error,
-  } = useContentItems(30, "random");
+    data: featuredItems = [],
+    isLoading: loading,
+    isError: error,
+  } = useGetContentItemsQuery({ count: 30, category: "random" });
 
-  const { items: similarItems } = useContentItems(30, "similar");
-  const { items: continueItems } = useContentItems(30, "continue");
+  const { data: similarItems = [] } = useGetContentItemsQuery({
+    count: 30,
+    category: "similar",
+  });
+  const { data: continueItems = [] } = useGetContentItemsQuery({
+    count: 30,
+    category: "continue",
+  });
+
   if (loading)
     return (
       <div className="center-message">
