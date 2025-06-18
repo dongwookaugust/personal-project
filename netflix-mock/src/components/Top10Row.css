@@ -120,3 +120,40 @@
   margin-left: -80%;
   object-fit: cover;
 }
+
+@media (max-width: 1100px) {
+  .top10-card {
+    flex-basis: 300px;
+    height: 220px;
+  }
+  .top10-rank-img img,
+  .top10-thumbnail img {
+    height: 220px;
+  }
+  .top10-rank-img img {
+    width: 130px;
+  }
+  .top10-thumbnail img {
+    width: 146px;
+  }
+}
+
+@media (max-width: 800px) {
+  .top10-nav {
+    display: none;
+  }
+  .top10-card {
+    flex-basis: 250px;
+    height: 180px;
+  }
+  .top10-rank-img img,
+  .top10-thumbnail img {
+    height: 180px;
+  }
+  .top10-rank-img img {
+    width: 108px;
+  }
+  .top10-thumbnail img {
+    width: 121px;
+  }
+}

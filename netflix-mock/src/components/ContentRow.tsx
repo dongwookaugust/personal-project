@@ -10,19 +10,39 @@ interface ContentRowProps {
   items: ContentItem[];
 }
 
-const VISIBLE_COUNT = 6;
-const CARD_WIDTH = 388;
-const CARD_GAP = 15;
-const PARTIAL_CARD_WIDTH = CARD_WIDTH / 5;
+const getVisibleCount = () => {
+  if (typeof window === "undefined") return 6;
+  if (window.innerWidth > 1400) return 6;
+  if (window.innerWidth > 1100) return 5;
+  if (window.innerWidth > 768) return 4;
+  return 3;
+};
+
+const getHoverCardWidth = () => {
+  if (typeof window !== "undefined" && window.innerWidth < 1024) {
+    return window.innerWidth * 0.9;
+  }
+  return 560;
+};
+
 const MULTIPLIER = 3;
 
 const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
+  const [visibleCount, setVisibleCount] = useState(getVisibleCount());
   const middlePage = Math.floor((items.length * MULTIPLIER) / 2);
   const [page, setPage] = useState(middlePage);
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [hovered, setHovered] = useState(false);
   const { hoveredInfo, show, hide, clear } = useHoverCard();
   const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getVisibleCount());
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const blankItem: ContentItem = {
     id: -1,
@@ -40,29 +60,27 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
   );
 
   useEffect(() => {
-    if (page <= VISIBLE_COUNT || page >= items.length * 2) {
+    if (page <= visibleCount || page >= items.length * 2) {
       setTimeout(() => setPage(middlePage), 300);
     }
-  }, [page, items.length, middlePage]);
+  }, [page, items.length, middlePage, visibleCount]);
 
   const nextPage = () => {
     setIsFirstRender(false);
-    setPage((prev) => prev + VISIBLE_COUNT);
+    setPage((prev) => prev + visibleCount);
   };
 
   const prevPage = () => {
     setIsFirstRender(false);
-    setPage((prev) => prev - VISIBLE_COUNT);
+    setPage((prev) => prev - visibleCount);
   };
 
-  // [blankItem, ...realItems.slice(0, VISIBLE_COUNT)] - this create a new array, that combines blankitem and realitems from index 0 to 6
-  // (parentRect?.top ?? 0)
-  const realItems = infiniteItems.slice(page, page + VISIBLE_COUNT + 1);
+  const realItems = infiniteItems.slice(page, page + visibleCount + 1);
   const visibleItems = isFirstRender
-    ? [blankItem, ...realItems.slice(0, VISIBLE_COUNT)]
-    : realItems.slice(0, VISIBLE_COUNT);
+    ? [blankItem, ...realItems.slice(0, visibleCount)]
+    : realItems.slice(0, visibleCount);
   const bookendLeft = !isFirstRender ? infiniteItems[page - 1] : null;
-  const bookendRight = realItems[VISIBLE_COUNT];
+  const bookendRight = realItems[visibleCount];
 
   const handleHover = (
     e: React.MouseEvent<HTMLDivElement>,
@@ -70,29 +88,35 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
     idx: number
   ) => {
     clear();
-
     const cardRect = e.currentTarget.getBoundingClientRect();
     const parentRect = document
       .getElementById("hover-layer")
       ?.getBoundingClientRect();
 
-    const hoverCardWidth = 490;
-    const hoverCardHeight = 300;
-    const verticalPadding = 180;
-
+    const hoverCardWidth = getHoverCardWidth();
     let offsetX = cardRect.left + cardRect.width / 2 - hoverCardWidth / 2;
 
-    const isFirst = isFirstRender ? idx === 1 : idx === 0;
-    const isLast = isFirstRender
-      ? idx === VISIBLE_COUNT
-      : idx === VISIBLE_COUNT - 1;
+    const isFirstInRow = isFirstRender ? idx === 1 : idx === 0;
+    const isLastInRow = isFirstRender
+      ? idx === visibleCount
+      : idx === visibleCount - 1;
 
-    if (isFirst) offsetX += 90;
-    if (isLast) offsetX -= 160;
+    if (isFirstInRow) {
+      offsetX = cardRect.left;
+    }
 
-    const offsetY =
-      cardRect.top - (parentRect?.top ?? 0) - hoverCardHeight + verticalPadding;
+    if (isLastInRow) {
+      offsetX = cardRect.right - hoverCardWidth;
+    }
 
+    if (offsetX < 10) {
+      offsetX = 10;
+    }
+    if (offsetX + hoverCardWidth > window.innerWidth - 10) {
+      offsetX = window.innerWidth - hoverCardWidth - 10;
+    }
+
+    const offsetY = cardRect.top - (parentRect?.top ?? 0) - 90;
     show({ item, position: { x: offsetX, y: offsetY } });
   };
 
@@ -110,9 +134,11 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
         >
           {hovered && (
             <>
-              <div className="row-nav left" onClick={prevPage}>
-                <FiChevronLeft />
-              </div>
+              {!isFirstRender && (
+                <div className="row-nav left" onClick={prevPage}>
+                  <FiChevronLeft />
+                </div>
+              )}
               <div className="row-nav right" onClick={nextPage}>
                 <FiChevronRight />
               </div>
@@ -120,14 +146,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
           )}
 
           <div className="row-cards static">
-            <div
-              className="row-track"
-              ref={trackRef}
-              style={{
-                gap: `${CARD_GAP}px`,
-                marginRight: `-${PARTIAL_CARD_WIDTH}px`,
-              }}
-            >
+            <div className="row-track" ref={trackRef}>
               {bookendLeft && (
                 <div className="card bookend-left partial">
                   <img

@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
 
   const notificationTimeoutRef = useRef<number | null>(null);
   const profileTimeoutRef = useRef<number | null>(null);
-
+  const searchBoxRef = useRef<HTMLDivElement>(null);
   const { data, isLoading, isError } = useGetContentItemsQuery({
     count: 6,
     category: "random",
@@ -52,31 +52,45 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchBoxRef.current &&
+        !searchBoxRef.current.contains(event.target as Node)
+      ) {
+        setShowSearch(false);
+      }
+    };
+
+    if (showSearch) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSearch]);
+
   const handleNotificationEnter = () => {
     if (profileTimeoutRef.current) clearTimeout(profileTimeoutRef.current);
     setShowMenu(false);
-
     if (notificationTimeoutRef.current)
       clearTimeout(notificationTimeoutRef.current);
     setShowNotifications(true);
   };
-
   const handleNotificationLeave = () => {
     notificationTimeoutRef.current = window.setTimeout(
       () => setShowNotifications(false),
       200
     );
   };
-
   const handleProfileEnter = () => {
     if (notificationTimeoutRef.current)
       clearTimeout(notificationTimeoutRef.current);
     setShowNotifications(false);
-
     if (profileTimeoutRef.current) clearTimeout(profileTimeoutRef.current);
     setShowMenu(true);
   };
-
   const handleProfileLeave = () => {
     profileTimeoutRef.current = window.setTimeout(
       () => setShowMenu(false),
@@ -107,7 +121,10 @@ const Navbar: React.FC = () => {
       </div>
 
       <div className="navbar-right">
-        <div className={`search-box${showSearch ? " expanded" : ""}`}>
+        <div
+          ref={searchBoxRef}
+          className={`search-box${showSearch ? " expanded" : ""}`}
+        >
           <FaSearch
             className="icon search-icon"
             onClick={() => setShowSearch(!showSearch)}

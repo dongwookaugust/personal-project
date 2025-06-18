@@ -26,3 +26,9 @@ export interface Notification {
   subtitle: string;
   time: string;
 }
+
+export interface User {
+  name: string;
+  avatarUrl: string;
+  notifications: number;
+}

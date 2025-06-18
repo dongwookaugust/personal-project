@@ -61,7 +61,7 @@
 .notification-subtitle,
 .notification-time {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1.4rem;
 }
 
 .notification-subtitle {
@@ -70,7 +70,7 @@
 }
 
 .notification-time {
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   color: #aaa;
 }
 .notification-empty {

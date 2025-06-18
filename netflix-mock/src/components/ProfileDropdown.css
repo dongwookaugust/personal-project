@@ -1,7 +1,7 @@
 .profile-dropdown {
   position: absolute;
   top: 63px;
-  right: 80px;
+  right: 50px;
   width: 200px;
   background-color: #141414;
   border-radius: 4px;
@@ -46,7 +46,7 @@
 
 .dropdown-username {
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 1.4rem;
 }
 
 .dropdown-item {
@@ -54,14 +54,14 @@
   align-items: center;
   padding: 8px 12px;
   color: #ddd;
-  font-size: 0.85rem;
+  font-size: 1.4rem;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .dropdown-item .icon {
   margin-right: 8px;
-  font-size: 1rem;
+  font-size: 1.6rem;
 }
 
 .dropdown-item:hover {

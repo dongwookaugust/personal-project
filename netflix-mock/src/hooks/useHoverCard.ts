@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import type { ContentItem } from "./useContentItems";
+import type { ContentItem } from "../types";
 
 export function useHoverCard() {
   const [hoveredInfo, setHoveredInfo] = useState<{

@@ -31,6 +31,13 @@ const rankImages = [
 
 const VISIBLE_COUNT = 6;
 
+const getHoverCardWidth = () => {
+  if (typeof window !== "undefined" && window.innerWidth < 768) {
+    return window.innerWidth * 0.9;
+  }
+  return 560;
+};
+
 interface Top10RowProps {
   title: string;
   items: ContentItem[];
@@ -110,12 +117,26 @@ const Top10Row: React.FC<Top10RowProps> = ({ title, items }) => {
                     const parentRect = document
                       .getElementById("hover-layer")
                       ?.getBoundingClientRect();
-                    const hoverCardWidth = 490;
+
+                    const hoverCardWidth = getHoverCardWidth();
                     let offsetX =
                       cardRect.left + cardRect.width / 2 - hoverCardWidth / 2;
                     const offsetY = cardRect.top - (parentRect?.top ?? 0) - 30;
-                    if (idx === 0) offsetX += 60;
-                    if (idx === VISIBLE_COUNT - 1) offsetX -= 160;
+
+                    if (idx === 0) {
+                      offsetX = cardRect.left + 30;
+                    }
+                    if (idx === VISIBLE_COUNT - 1) {
+                      offsetX = cardRect.right - hoverCardWidth - 30;
+                    }
+
+                    if (offsetX < 10) {
+                      offsetX = 10;
+                    }
+                    if (offsetX + hoverCardWidth > window.innerWidth - 10) {
+                      offsetX = window.innerWidth - hoverCardWidth - 10;
+                    }
+
                     show({
                       item: items[i],
                       position: { x: offsetX, y: offsetY },

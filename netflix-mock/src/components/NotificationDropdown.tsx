@@ -17,7 +17,6 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
   onMouseEnter,
   onMouseLeave,
 }) => {
-  // When loading, an error occurs, or there are no notifications
   if (isLoading || isError || notifications.length === 0) {
     return (
       <div
