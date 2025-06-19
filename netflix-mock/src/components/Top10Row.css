@@ -52,6 +52,7 @@
   background: transparent;
   z-index: 1;
   pointer-events: auto;
+  cursor: pointer;
 }
 
 .top10-card.blank {

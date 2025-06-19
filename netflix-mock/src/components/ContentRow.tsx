@@ -35,6 +35,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
   const [hovered, setHovered] = useState(false);
   const { hoveredInfo, show, hide, clear } = useHoverCard();
   const trackRef = useRef<HTMLDivElement>(null);
+  const rowWrapperRef = useRef<HTMLDivElement>(null); // row-wrapper에 대한 ref 추가
 
   useEffect(() => {
     const handleResize = () => {
@@ -87,37 +88,48 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
     item: ContentItem,
     idx: number
   ) => {
-    clear();
     const cardRect = e.currentTarget.getBoundingClientRect();
+    const hoverCardWidth = getHoverCardWidth();
+
+    // row-wrapper의 바운딩 사각형 가져오기
+    const rowWrapperRect = rowWrapperRef.current?.getBoundingClientRect();
+    if (!rowWrapperRect) return; // rowWrapperRef를 사용할 수 없으면 종료
+
+    // row-wrapper의 왼쪽 가장자리에 상대적인 원하는 중앙 위치 계산
+    let offsetX =
+      cardRect.left +
+      cardRect.width / 2 -
+      hoverCardWidth / 2 -
+      rowWrapperRect.left;
+
+    const totalVisibleCards = visibleCount; // 현재 보이는 "전체" 카드 수
+
+    // 행의 첫 번째 카드에 대한 조정
+    if (idx === 0) {
+      offsetX = cardRect.left - rowWrapperRect.left;
+    }
+
+    // 행의 마지막 카드에 대한 조정
+    if (idx === totalVisibleCards - 1) {
+      offsetX = cardRect.right - hoverCardWidth - rowWrapperRect.left;
+    }
+
+    // row-wrapper에 비해 너무 왼쪽으로 가지 않도록 보장
+    if (offsetX < 0) {
+      offsetX = 0;
+    }
+    // row-wrapper에 비해 너무 오른쪽으로 가지 않도록 보장
+    if (offsetX + hoverCardWidth > rowWrapperRect.width) {
+      offsetX = rowWrapperRect.width - hoverCardWidth;
+    }
+
+    // OffsetY 계산은 대부분 동일하게 유지
     const parentRect = document
       .getElementById("hover-layer")
       ?.getBoundingClientRect();
-
-    const hoverCardWidth = getHoverCardWidth();
-    let offsetX = cardRect.left + cardRect.width / 2 - hoverCardWidth / 2;
-
-    const isFirstInRow = isFirstRender ? idx === 1 : idx === 0;
-    const isLastInRow = isFirstRender
-      ? idx === visibleCount
-      : idx === visibleCount - 1;
-
-    if (isFirstInRow) {
-      offsetX = cardRect.left;
-    }
-
-    if (isLastInRow) {
-      offsetX = cardRect.right - hoverCardWidth;
-    }
-
-    if (offsetX < 10) {
-      offsetX = 10;
-    }
-    if (offsetX + hoverCardWidth > window.innerWidth - 10) {
-      offsetX = window.innerWidth - hoverCardWidth - 10;
-    }
-
     const offsetY = cardRect.top - (parentRect?.top ?? 0) - 90;
-    show({ item, position: { x: offsetX, y: offsetY } });
+
+    show({ item, position: { x: offsetX, y: offsetY } }, 500);
   };
 
   return (
@@ -126,6 +138,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
         <h2 className="row-title">{title}</h2>
         <div
           className="row-wrapper"
+          ref={rowWrapperRef} // 여기에 ref 할당
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => {
             setHovered(false);

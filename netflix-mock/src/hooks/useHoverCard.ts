@@ -9,12 +9,28 @@ export function useHoverCard() {
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const show = (info: {
-    item: ContentItem;
-    position: { x: number; y: number };
-  }) => {
+  const clear = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const show = (
+    info: {
+      item: ContentItem;
+      position: { x: number; y: number };
+    },
+    delay?: number
+  ) => {
     clear();
-    setHoveredInfo(info);
+    if (delay) {
+      timerRef.current = setTimeout(() => {
+        setHoveredInfo(info);
+      }, delay);
+    } else {
+      setHoveredInfo(info);
+    }
   };
 
   const hide = (delay = 150) => {
@@ -22,13 +38,6 @@ export function useHoverCard() {
     timerRef.current = setTimeout(() => {
       setHoveredInfo(null);
     }, delay);
-  };
-
-  const clear = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
   };
 
   return {

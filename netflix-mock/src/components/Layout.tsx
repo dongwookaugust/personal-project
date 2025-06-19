@@ -1,3 +1,4 @@
+// src/components/Layout.tsx
 import type { ReactNode } from "react";
 import Navbar from "./Navbar";
 import "./Layout.css";
@@ -14,7 +15,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => (
 
     <main className="content-area" style={{ position: "relative" }}>
       {children}
-      <div id="hover-layer" style={{ position: "relative", zIndex: 10000 }} />
     </main>
   </div>
 );

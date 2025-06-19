@@ -137,10 +137,13 @@ const Top10Row: React.FC<Top10RowProps> = ({ title, items }) => {
                       offsetX = window.innerWidth - hoverCardWidth - 10;
                     }
 
-                    show({
-                      item: items[i],
-                      position: { x: offsetX, y: offsetY },
-                    });
+                    show(
+                      {
+                        item: items[i],
+                        position: { x: offsetX, y: offsetY },
+                      },
+                      500
+                    );
                   }}
                   onMouseLeave={() => hide()}
                 >

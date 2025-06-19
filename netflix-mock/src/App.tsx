@@ -6,7 +6,6 @@ import Detail from "./pages/Detail";
 function App() {
   return (
     <>
-      <div id="hover-layer"></div>
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
