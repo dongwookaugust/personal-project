@@ -12,19 +12,21 @@ interface ContentRowProps {
 
 const getVisibleCount = () => {
   if (typeof window === "undefined") return 6;
-  if (window.innerWidth > 1400) return 6;
-  if (window.innerWidth > 1100) return 5;
-  if (window.innerWidth > 768) return 4;
-  return 3;
+  if (window.innerWidth > 2025) return 6;
+  if (window.innerWidth > 1440) return 5;
+  if (window.innerWidth > 1100) return 4;
+  if (window.innerWidth > 768) return 3;
+  return 2;
 };
 
 const getHoverCardWidth = () => {
   if (typeof window !== "undefined" && window.innerWidth < 1024) {
-    return window.innerWidth * 0.9;
+    const responsiveWidth = window.innerWidth * 0.9;
+    const maxWidth = 400;
+    return Math.min(responsiveWidth, maxWidth);
   }
   return 560;
 };
-
 const MULTIPLIER = 3;
 
 const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
@@ -35,7 +37,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
   const [hovered, setHovered] = useState(false);
   const { hoveredInfo, show, hide, clear } = useHoverCard();
   const trackRef = useRef<HTMLDivElement>(null);
-  const rowWrapperRef = useRef<HTMLDivElement>(null); // row-wrapper에 대한 ref 추가
+  const rowWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -90,55 +92,44 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
   ) => {
     const cardRect = e.currentTarget.getBoundingClientRect();
     const hoverCardWidth = getHoverCardWidth();
+    let offsetX = cardRect.left + cardRect.width / 2 - hoverCardWidth / 2;
 
-    // row-wrapper의 바운딩 사각형 가져오기
-    const rowWrapperRect = rowWrapperRef.current?.getBoundingClientRect();
-    if (!rowWrapperRect) return; // rowWrapperRef를 사용할 수 없으면 종료
+    const firstCardIndex = isFirstRender ? 1 : 0;
+    const lastCardIndex = visibleItems.length - 1;
 
-    // row-wrapper의 왼쪽 가장자리에 상대적인 원하는 중앙 위치 계산
-    let offsetX =
-      cardRect.left +
-      cardRect.width / 2 -
-      hoverCardWidth / 2 -
-      rowWrapperRect.left;
-
-    const totalVisibleCards = visibleCount; // 현재 보이는 "전체" 카드 수
-
-    // 행의 첫 번째 카드에 대한 조정
-    if (idx === 0) {
-      offsetX = cardRect.left - rowWrapperRect.left;
+    if (idx === firstCardIndex) {
+      offsetX = cardRect.left + 25;
+    }
+    if (idx === lastCardIndex) {
+      offsetX = cardRect.right - hoverCardWidth - 25;
     }
 
-    // 행의 마지막 카드에 대한 조정
-    if (idx === totalVisibleCards - 1) {
-      offsetX = cardRect.right - hoverCardWidth - rowWrapperRect.left;
+    const PADDING = 10;
+    if (offsetX < PADDING) {
+      offsetX = PADDING;
+    }
+    if (offsetX + hoverCardWidth > window.innerWidth - PADDING) {
+      offsetX = window.innerWidth - hoverCardWidth - PADDING;
     }
 
-    // row-wrapper에 비해 너무 왼쪽으로 가지 않도록 보장
-    if (offsetX < 0) {
-      offsetX = 0;
-    }
-    // row-wrapper에 비해 너무 오른쪽으로 가지 않도록 보장
-    if (offsetX + hoverCardWidth > rowWrapperRect.width) {
-      offsetX = rowWrapperRect.width - hoverCardWidth;
-    }
-
-    // OffsetY 계산은 대부분 동일하게 유지
     const parentRect = document
       .getElementById("hover-layer")
       ?.getBoundingClientRect();
-    const offsetY = cardRect.top - (parentRect?.top ?? 0) - 90;
+
+    // 카드 높이에 비례하여 Y축 위치를 동적으로 계산합니다.
+    const offsetY =
+      cardRect.top - (parentRect?.top ?? 0) - cardRect.height * 0.4;
 
     show({ item, position: { x: offsetX, y: offsetY } }, 500);
   };
 
   return (
     <div className="content-row-background">
-      <div className="content-row">
+      <div className={`content-row ${isFirstRender ? "first-render" : ""}`}>
         <h2 className="row-title">{title}</h2>
         <div
-          className="row-wrapper"
-          ref={rowWrapperRef} // 여기에 ref 할당
+          className={`row-wrapper ${isFirstRender ? "first-render" : ""}`}
+          ref={rowWrapperRef}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => {
             setHovered(false);
@@ -158,7 +149,11 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
             </>
           )}
 
-          <div className="row-cards static">
+          <div
+            className={`row-cards static ${
+              isFirstRender ? "first-render" : ""
+            }`}
+          >
             <div className="row-track" ref={trackRef}>
               {bookendLeft && (
                 <div className="card bookend-left partial">
@@ -178,7 +173,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
                     key={`${item.id}-${idx}`}
                     className="card"
                     onMouseEnter={(e) => handleHover(e, item, idx)}
-                    onMouseLeave={() => hide}
+                    onMouseLeave={() => hide()}
                   >
                     <img src={item.imageUrl} alt={item.title} loading="lazy" />
                   </div>

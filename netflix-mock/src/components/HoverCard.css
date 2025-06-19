@@ -1,3 +1,5 @@
+/* === HoverCard.css (오류 수정 최종 버전) === */
+
 .hover-card {
   width: 560px;
   background-color: #181818;
@@ -6,7 +8,7 @@
   padding: 1.2rem;
   color: white;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  transform: scale(1.15);
+  transform: scale(1.15); /* HoverCard는 항상 확대된 상태로 나타납니다. */
   transition: transform 0.2s ease;
   position: absolute;
   z-index: 10;
@@ -131,6 +133,9 @@
   font-size: 1.4rem;
   color: #fff;
 }
+
+/* --- 모달(확장) 뷰 스타일 --- */
+
 .hover-card-modal {
   position: fixed;
   top: 0;
@@ -193,6 +198,8 @@
   font-size: 1.4rem;
   color: #aaa;
 }
+
+/* --- 에피소드 리스트 스타일 --- */
 
 .episode-list {
   display: flex;
@@ -294,20 +301,14 @@
   color: #aaa;
 }
 
-@media (max-width: 1920px) {
+/*
+  작은 화면에서 HoverCard 크기와 확대 비율을 조절하는
+  유일하게 추가된 반응형 코드입니다.
+*/
+@media (max-width: 1024px) {
   .hover-card {
+    transform: scale(1.05); /* 확대 비율 축소 */
     width: 90vw;
-    height: auto;
     max-width: 400px;
-    padding: 1rem;
-    transform: scale(1.05);
-  }
-
-  .hover-card-controls {
-    margin-top: 1.2rem;
-  }
-
-  .btn {
-    padding: 8px 12px;
   }
 }
