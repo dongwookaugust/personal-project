@@ -12,6 +12,7 @@ interface ContentRowProps {
 
 const getVisibleCount = () => {
   if (typeof window === "undefined") return 6;
+  if (window.innerWidth > 2200) return 6;
   if (window.innerWidth > 2025) return 6;
   if (window.innerWidth > 1440) return 5;
   if (window.innerWidth > 1100) return 4;
@@ -27,6 +28,7 @@ const getHoverCardWidth = () => {
   }
   return 560;
 };
+
 const MULTIPLIER = 3;
 
 const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
@@ -112,11 +114,14 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
       offsetX = window.innerWidth - hoverCardWidth - PADDING;
     }
 
+    /*
+      ★★★ 수정된 부분: Y축 위치 계산 오류 수정 ★★★
+      이전에 빠뜨렸던 parentRect.top 값을 다시 빼주어,
+      HoverCard가 렌더링되는 #hover-layer를 기준으로 정확한 Y축 위치를 계산합니다.
+    */
     const parentRect = document
       .getElementById("hover-layer")
       ?.getBoundingClientRect();
-
-    // 카드 높이에 비례하여 Y축 위치를 동적으로 계산합니다.
     const offsetY =
       cardRect.top - (parentRect?.top ?? 0) - cardRect.height * 0.4;
 

@@ -1,4 +1,4 @@
-/* === HoverCard.css (오류 수정 최종 버전) === */
+/* === HoverCard.css (최종 수정 완료 버전) === */
 
 .hover-card {
   width: 560px;
@@ -8,8 +8,8 @@
   padding: 1.2rem;
   color: white;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  transform: scale(1.15); /* HoverCard는 항상 확대된 상태로 나타납니다. */
-  transition: transform 0.2s ease;
+  transform: scale(1.15);
+  transition: transform 0.2s ease, width 0.2s ease;
   position: absolute;
   z-index: 10;
 }
@@ -134,73 +134,6 @@
   color: #fff;
 }
 
-/* --- 모달(확장) 뷰 스타일 --- */
-
-.hover-card-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
-  background: rgba(0, 0, 0, 0.85);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0 24px;
-  box-sizing: border-box;
-  z-index: 9999;
-}
-
-.hover-card-expanded {
-  width: 100%;
-  max-width: 940px;
-  background-color: #181818;
-  border-radius: 10px;
-  color: white;
-  margin: 80px 0;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.expanded-header {
-  position: relative;
-}
-
-.expanded-header img {
-  width: 100%;
-  height: auto;
-  max-height: 440px;
-  object-fit: cover;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  color: white;
-  cursor: pointer;
-}
-
-.expanded-body {
-  padding: 1.5rem;
-}
-
-.detail-row {
-  margin-top: 1rem;
-  font-size: 1.4rem;
-  color: #aaa;
-}
-
-/* --- 에피소드 리스트 스타일 --- */
-
 .episode-list {
   display: flex;
   flex-direction: column;
@@ -301,14 +234,30 @@
   color: #aaa;
 }
 
-/*
-  작은 화면에서 HoverCard 크기와 확대 비율을 조절하는
-  유일하게 추가된 반응형 코드입니다.
-*/
-@media (max-width: 1024px) {
+@media (max-width: 2025px) {
   .hover-card {
-    transform: scale(1.05); /* 확대 비율 축소 */
-    width: 90vw;
+    width: 520px;
+    transform: scale(1.1);
+  }
+}
+
+@media (max-width: 1440px) {
+  .hover-card {
+    width: 480px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hover-card {
+    width: 440px;
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 768px) {
+  .hover-card {
+    width: 100%;
     max-width: 400px;
+    min-width: 300px;
   }
 }

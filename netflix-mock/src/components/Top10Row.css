@@ -43,16 +43,42 @@
 }
 
 .top10-card {
+  position: relative;
   display: flex;
   align-items: center;
   height: 284px;
   flex: 0 0 388px;
-  overflow: visible;
-  position: relative;
   background: transparent;
-  z-index: 1;
-  pointer-events: auto;
   cursor: pointer;
+}
+
+.top10-rank-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.top10-rank-img img {
+  width: 231px;
+  height: 284px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.top10-thumbnail {
+  position: absolute;
+  top: 0;
+  /* --- 2. 넓어진 숫자에 맞춰 썸네일 시작 위치 조정 --- */
+  left: 140px; /* 기존 110px에서 조정 */
+}
+
+.top10-thumbnail img {
+  width: 231px;
+  height: 284px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
 }
 
 .top10-card.blank {
@@ -64,24 +90,6 @@
 .top10-card.partial {
   flex: 0 0 77.6px;
   overflow: hidden;
-}
-
-.top10-rank-img img {
-  width: 169px;
-  height: 284px;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-}
-
-.top10-thumbnail img {
-  width: 189px;
-  height: 284px;
-  object-fit: cover;
-  border-radius: 4px;
-  display: block;
-  z-index: 1;
-  position: relative;
 }
 
 .top10-nav {
@@ -132,10 +140,14 @@
     height: 220px;
   }
   .top10-rank-img img {
-    width: 130px;
+    /* --- 3. 미디어 쿼리에서도 비율에 맞게 크기 및 위치 조정 --- */
+    width: 170px; /* 기존 130px에서 증가 */
   }
   .top10-thumbnail img {
     width: 146px;
+  }
+  .top10-thumbnail {
+    left: 110px; /* 기존 85px에서 조정 */
   }
 }
 
@@ -152,9 +164,13 @@
     height: 180px;
   }
   .top10-rank-img img {
-    width: 108px;
+    /* --- 4. 미디어 쿼리에서도 비율에 맞게 크기 및 위치 조정 --- */
+    width: 140px; /* 기존 108px에서 증가 */
   }
   .top10-thumbnail img {
     width: 121px;
+  }
+  .top10-thumbnail {
+    left: 90px; /* 기존 70px에서 조정 */
   }
 }

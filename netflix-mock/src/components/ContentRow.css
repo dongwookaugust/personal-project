@@ -1,5 +1,3 @@
-/* === ContentRow.css (카드 크기 최종 수정 버전) === */
-
 .content-row-background {
   width: 100%;
   margin-left: -50vw;
@@ -52,14 +50,9 @@
   overflow: visible;
 }
 
-/*
-  ★★★ 수정된 부분 ★★★
-  기본 카드 크기를 원래의 388px로 복원하고,
-  화면 크기별로 적절한 크기를 재조정합니다.
-*/
 .card {
   position: relative;
-  flex: 0 0 388px; /* 기본 크기 (6개 보일 때) - 원래 크기로 복원 */
+  flex: 0 0 388px;
   aspect-ratio: 16 / 9;
   overflow: visible;
   z-index: 1;
@@ -67,28 +60,31 @@
   cursor: pointer;
 }
 
-/* 화면 너비 2025px 이하일 때 (5개 보일 때) */
+/* ★★★ 수정된 부분: 2200px 미디어 쿼리 추가 ★★★ */
+@media (max-width: 2200px) {
+  .card {
+    flex-basis: 370px;
+  }
+}
+
 @media (max-width: 2025px) {
   .card {
-    flex-basis: 360px; /* 5개가 보이도록 적절한 크기로 조정 */
+    flex-basis: 360px;
   }
 }
 
-/* 화면 너비 1440px 이하일 때 (4개 보일 때) */
 @media (max-width: 1440px) {
   .card {
-    flex-basis: 320px; /* 4개가 보이도록 적절한 크기로 조정 */
+    flex-basis: 320px;
   }
 }
 
-/* 화면 너비 1100px 이하일 때 (3개 보일 때) */
 @media (max-width: 1100px) {
   .card {
     flex-basis: 280px;
   }
 }
 
-/* 화면 너비 768px 이하일 때 (2개 보일 때) */
 @media (max-width: 768px) {
   .card {
     flex-basis: 240px;
@@ -141,27 +137,6 @@
 
 .row-nav.right {
   right: -56px;
-}
-
-.big-index {
-  position: absolute;
-  left: -1.5rem;
-  top: 0;
-  font-size: 3rem;
-  color: #fff;
-  font-weight: bold;
-  z-index: 1;
-}
-
-.badge.top10 {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background-color: #e50914;
-  color: #fff;
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  border-radius: 2px;
 }
 
 .row-cards.static.first-render {
