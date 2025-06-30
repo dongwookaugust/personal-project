@@ -10,7 +10,6 @@
 
 .top10-row {
   width: 100%;
-  padding: 0 2%;
   box-sizing: border-box;
 }
 
@@ -19,6 +18,7 @@
   font-size: 1.8rem;
   margin-left: 1%;
   margin-bottom: 1.5rem;
+  padding: 0 2%;
 }
 
 .top10-wrapper {
@@ -26,69 +26,67 @@
   display: flex;
   align-items: center;
   overflow: visible;
+  width: 100%;
 }
 
 .top10-cards.static {
   overflow: visible;
-  width: calc(100% + 155.2px);
-  margin: 0 -57.6px;
+  width: 100%;
   padding: 0;
 }
 
 .top10-track {
   display: flex;
-  width: max-content;
-  gap: 15px;
+  width: 100%;
+  gap: 1.5rem;
   overflow: visible;
+  justify-content: space-between;
 }
 
 .top10-card {
   position: relative;
   display: flex;
   align-items: center;
-  height: 284px;
-  flex: 0 0 388px;
+  height: auto;
+  aspect-ratio: 388 / 284;
   background: transparent;
   cursor: pointer;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: calc((100% - (2 * 7.76rem) - (7 * 1.5rem)) / 6);
 }
 
 .top10-rank-img {
   position: absolute;
   left: 0;
   top: 0;
+  height: 100%;
+  width: 60%;
 }
-
 .top10-rank-img img {
-  width: 231px;
-  height: 284px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   pointer-events: none;
-  user-select: none;
 }
 
 .top10-thumbnail {
   position: absolute;
   top: 0;
-  /* --- 2. 넓어진 숫자에 맞춰 썸네일 시작 위치 조정 --- */
-  left: 140px; /* 기존 110px에서 조정 */
+  right: 0;
+  height: 100%;
+  width: 60%;
 }
-
 .top10-thumbnail img {
-  width: 231px;
-  height: 284px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
-  display: block;
-}
-
-.top10-card.blank {
-  flex: 0 0 77.6px;
-  background: transparent;
-  pointer-events: none;
+  border-radius: 0.4rem;
 }
 
 .top10-card.partial {
-  flex: 0 0 77.6px;
+  flex-grow: 0;
+  flex-basis: 7.76rem;
   overflow: hidden;
 }
 
@@ -97,7 +95,7 @@
   top: 0;
   bottom: 0;
   margin: auto 0;
-  width: 80px;
+  width: 6rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,62 +113,33 @@
 }
 
 .top10-nav.left {
-  left: -60px;
+  left: -6rem;
+  padding: 0 2%;
 }
 
 .top10-nav.right {
-  right: -56px;
+  right: -5.6rem;
+  padding: 0 2%;
 }
 
 .top10-nav:hover {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
+
 .top10-card.bookend-left .top10-thumbnail img {
-  margin-left: -80%;
+  margin-left: -30%;
   object-fit: cover;
 }
 
-@media (max-width: 1100px) {
-  .top10-card {
-    flex-basis: 300px;
-    height: 220px;
-  }
-  .top10-rank-img img,
-  .top10-thumbnail img {
-    height: 220px;
-  }
-  .top10-rank-img img {
-    /* --- 3. 미디어 쿼리에서도 비율에 맞게 크기 및 위치 조정 --- */
-    width: 170px; /* 기존 130px에서 증가 */
-  }
-  .top10-thumbnail img {
-    width: 146px;
-  }
-  .top10-thumbnail {
-    left: 110px; /* 기존 85px에서 조정 */
-  }
+.top10-card.bookend-left .top10-rank-img {
+  display: none;
 }
 
-@media (max-width: 800px) {
-  .top10-nav {
-    display: none;
-  }
-  .top10-card {
-    flex-basis: 250px;
-    height: 180px;
-  }
-  .top10-rank-img img,
-  .top10-thumbnail img {
-    height: 180px;
-  }
-  .top10-rank-img img {
-    /* --- 4. 미디어 쿼리에서도 비율에 맞게 크기 및 위치 조정 --- */
-    width: 140px; /* 기존 108px에서 증가 */
-  }
-  .top10-thumbnail img {
-    width: 121px;
-  }
-  .top10-thumbnail {
-    left: 90px; /* 기존 70px에서 조정 */
-  }
+.top10-card.bookend-right.partial .top10-thumbnail {
+  display: none;
+}
+.top10-card.partial .top10-rank-img {
+  margin-left: 60%;
+  object-fit: cover;
+  width: 100%;
 }

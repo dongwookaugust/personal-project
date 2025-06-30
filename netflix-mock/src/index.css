@@ -1,5 +1,5 @@
 html {
-  font-size: 62.5%;
+  font-size: clamp(7px, 0.390625vw, 12px);
 }
 
 html,

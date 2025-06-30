@@ -10,29 +10,18 @@ interface ContentRowProps {
   items: ContentItem[];
 }
 
-const getVisibleCount = () => {
-  if (typeof window === "undefined") return 6;
-  if (window.innerWidth > 2200) return 6;
-  if (window.innerWidth > 2025) return 6;
-  if (window.innerWidth > 1440) return 5;
-  if (window.innerWidth > 1100) return 4;
-  if (window.innerWidth > 768) return 3;
-  return 2;
-};
-
 const getHoverCardWidth = () => {
-  if (typeof window !== "undefined" && window.innerWidth < 1024) {
-    const responsiveWidth = window.innerWidth * 0.9;
-    const maxWidth = 400;
-    return Math.min(responsiveWidth, maxWidth);
-  }
-  return 560;
+  if (typeof window === "undefined") return 560;
+  const dynamicWidth = window.innerWidth * 0.3;
+  const minWidth = 280;
+  const maxWidth = 560;
+  return Math.max(minWidth, Math.min(dynamicWidth, maxWidth));
 };
 
 const MULTIPLIER = 3;
 
 const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
-  const [visibleCount, setVisibleCount] = useState(getVisibleCount());
+  const visibleCount = 6;
   const middlePage = Math.floor((items.length * MULTIPLIER) / 2);
   const [page, setPage] = useState(middlePage);
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -40,14 +29,6 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
   const { hoveredInfo, show, hide, clear } = useHoverCard();
   const trackRef = useRef<HTMLDivElement>(null);
   const rowWrapperRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setVisibleCount(getVisibleCount());
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const blankItem: ContentItem = {
     id: -1,
@@ -92,6 +73,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
     item: ContentItem,
     idx: number
   ) => {
+    clear();
     const cardRect = e.currentTarget.getBoundingClientRect();
     const hoverCardWidth = getHoverCardWidth();
     let offsetX = cardRect.left + cardRect.width / 2 - hoverCardWidth / 2;
@@ -100,10 +82,10 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
     const lastCardIndex = visibleItems.length - 1;
 
     if (idx === firstCardIndex) {
-      offsetX = cardRect.left + 25;
+      offsetX = cardRect.left;
     }
     if (idx === lastCardIndex) {
-      offsetX = cardRect.right - hoverCardWidth - 25;
+      offsetX = cardRect.right - hoverCardWidth;
     }
 
     const PADDING = 10;
@@ -114,14 +96,10 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
       offsetX = window.innerWidth - hoverCardWidth - PADDING;
     }
 
-    /*
-      ★★★ 수정된 부분: Y축 위치 계산 오류 수정 ★★★
-      이전에 빠뜨렸던 parentRect.top 값을 다시 빼주어,
-      HoverCard가 렌더링되는 #hover-layer를 기준으로 정확한 Y축 위치를 계산합니다.
-    */
     const parentRect = document
       .getElementById("hover-layer")
       ?.getBoundingClientRect();
+
     const offsetY =
       cardRect.top - (parentRect?.top ?? 0) - cardRect.height * 0.4;
 
