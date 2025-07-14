@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaBell, FaUserCircle } from "react-icons/fa";
 import ProfileDropdown from "./ProfileDropdown";
 import NotificationDropdown from "./NotificationDropdown";
@@ -8,6 +8,7 @@ import { ContentItem, Notification } from "../types";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -61,11 +62,9 @@ const Navbar: React.FC = () => {
         setShowSearch(false);
       }
     };
-
     if (showSearch) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -96,6 +95,16 @@ const Navbar: React.FC = () => {
       () => setShowMenu(false),
       200
     );
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      const query = event.currentTarget.value;
+      if (query) {
+        navigate(`/search?q=${query}`);
+        setShowSearch(false);
+      }
+    }
   };
 
   return (
@@ -129,10 +138,12 @@ const Navbar: React.FC = () => {
             className="icon search-icon"
             onClick={() => setShowSearch(!showSearch)}
           />
+
           <input
             type="text"
             placeholder="Title, Cast, Genre"
             className="search-input"
+            onKeyDown={handleKeyDown}
           />
         </div>
 

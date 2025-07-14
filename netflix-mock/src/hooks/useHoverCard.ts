@@ -1,14 +1,15 @@
 import { useState, useRef } from "react";
 import type { ContentItem } from "../types";
 
+interface HoveredInfo {
+  item: ContentItem;
+  position: { x: number; y: number };
+  width: number;
+}
+
 export function useHoverCard() {
-  const [hoveredInfo, setHoveredInfo] = useState<{
-    item: ContentItem;
-    position: { x: number; y: number };
-  } | null>(null);
-
+  const [hoveredInfo, setHoveredInfo] = useState<HoveredInfo | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const clear = () => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -16,13 +17,7 @@ export function useHoverCard() {
     }
   };
 
-  const show = (
-    info: {
-      item: ContentItem;
-      position: { x: number; y: number };
-    },
-    delay?: number
-  ) => {
+  const show = (info: HoveredInfo, delay?: number) => {
     clear();
     if (delay) {
       timerRef.current = setTimeout(() => {

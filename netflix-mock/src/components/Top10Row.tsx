@@ -30,7 +30,14 @@ const rankImages = [
 ];
 
 const VISIBLE_COUNT = 6;
-const getHoverCardWidth = () => 560;
+
+const getHoverCardWidth = () => {
+  if (typeof window === "undefined") return 560;
+  const dynamicWidth = window.innerWidth * 0.3;
+  const minWidth = 180;
+  const maxWidth = 560;
+  return Math.max(minWidth, Math.min(dynamicWidth, maxWidth));
+};
 
 interface Top10RowProps {
   title: string;
@@ -101,7 +108,7 @@ const Top10Row: React.FC<Top10RowProps> = ({ title, items }) => {
       offsetX = cardRect.left + 30;
     }
     if (idx === VISIBLE_COUNT - 1) {
-      offsetX = cardRect.right - hoverCardWidth - 30;
+      offsetX = cardRect.right - hoverCardWidth;
     }
     if (offsetX < 10) {
       offsetX = 10;
@@ -113,14 +120,23 @@ const Top10Row: React.FC<Top10RowProps> = ({ title, items }) => {
       .getElementById("hover-layer")
       ?.getBoundingClientRect();
     const offsetY = cardRect.top - (parentRect?.top ?? 0) - 30;
-    show({ item, position: { x: offsetX, y: offsetY } }, 500);
+
+    show(
+      { item, position: { x: offsetX, y: offsetY }, width: hoverCardWidth },
+      500
+    );
   };
 
   return (
     <div className="top10-background">
       <div className="top10-row">
         <h2 className="top10-title">{title}</h2>
-        <div className="top10-wrapper" onMouseLeave={() => hide}>
+        <div
+          className="top10-wrapper"
+          onMouseLeave={() => {
+            hide();
+          }}
+        >
           {pageIndex !== 0 && (
             <div className="top10-nav left" onClick={prev}>
               <FiChevronLeft />
@@ -158,7 +174,9 @@ const Top10Row: React.FC<Top10RowProps> = ({ title, items }) => {
                   className="top10-card"
                   key={top10Items[i].id}
                   onMouseEnter={(e) => handleHover(e, top10Items[i], idx)}
-                  onMouseLeave={() => hide}
+                  onMouseLeave={() => {
+                    hide();
+                  }}
                 >
                   <div className="top10-rank-img">
                     <img src={rankImages[i]} alt={`rank-${i + 1}`} />
@@ -198,6 +216,7 @@ const Top10Row: React.FC<Top10RowProps> = ({ title, items }) => {
         <HoverCardPortal
           item={hoveredInfo.item}
           position={hoveredInfo.position}
+          width={hoveredInfo.width}
           onLeave={hide}
           onEnter={clear}
         />

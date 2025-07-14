@@ -6,6 +6,7 @@ import type { ContentItem } from "../types";
 interface HoverCardPortalProps {
   item: ContentItem;
   position: { x: number; y: number };
+  width: number;
   onEnter?: () => void;
   onLeave?: () => void;
 }
@@ -13,6 +14,7 @@ interface HoverCardPortalProps {
 const HoverCardPortal: React.FC<HoverCardPortalProps> = ({
   item,
   position,
+  width,
   onEnter,
   onLeave,
 }) => {
@@ -31,6 +33,7 @@ const HoverCardPortal: React.FC<HoverCardPortalProps> = ({
         position: "absolute",
         top: position.y,
         left: position.x,
+        width: width,
         zIndex: 9999,
         pointerEvents: "none",
       }}

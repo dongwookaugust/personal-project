@@ -13,7 +13,7 @@ interface ContentRowProps {
 const getHoverCardWidth = () => {
   if (typeof window === "undefined") return 560;
   const dynamicWidth = window.innerWidth * 0.3;
-  const minWidth = 280;
+  const minWidth = 180;
   const maxWidth = 560;
   return Math.max(minWidth, Math.min(dynamicWidth, maxWidth));
 };
@@ -103,7 +103,10 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
     const offsetY =
       cardRect.top - (parentRect?.top ?? 0) - cardRect.height * 0.4;
 
-    show({ item, position: { x: offsetX, y: offsetY } }, 500);
+    show(
+      { item, position: { x: offsetX, y: offsetY }, width: hoverCardWidth },
+      500
+    );
   };
 
   return (
@@ -122,11 +125,19 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
           {hovered && (
             <>
               {!isFirstRender && (
-                <div className="row-nav left" onClick={prevPage}>
+                <div
+                  className="row-nav left"
+                  onClick={prevPage}
+                  data-testid="prev-button"
+                >
                   <FiChevronLeft />
                 </div>
               )}
-              <div className="row-nav right" onClick={nextPage}>
+              <div
+                className="row-nav right"
+                onClick={nextPage}
+                data-testid="next-button"
+              >
                 <FiChevronRight />
               </div>
             </>
@@ -181,6 +192,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ title, items }) => {
         <HoverCardPortal
           item={hoveredInfo.item}
           position={hoveredInfo.position}
+          width={hoveredInfo.width}
           onLeave={hide}
           onEnter={clear}
         />
